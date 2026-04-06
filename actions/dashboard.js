@@ -82,9 +82,17 @@ export async function createAccount(data) {
       throw new Error("Request blocked");
     }
 
-    const user = await db.user.findUnique({
-      where: { clerkUserId: userId },
-    });
+  
+const user = await db.user.upsert({
+  where: { clerkUserId: userId },
+  update: {},   
+  create: {
+    clerkUserId: userId,
+    email: ...,  
+    name: ...,
+    imageUrl: ...,
+  },
+});
 
     if (!user) {
       throw new Error("User not found");
